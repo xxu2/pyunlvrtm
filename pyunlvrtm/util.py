@@ -57,6 +57,7 @@ def l_dolp(Stokes, l_Stokes):
    ----------
    Stokes: A Stokes vector containing at least the first two of [I,Q,U,V]
    l_Stokes: Jacobian of the Stokes vector 
+
    Returns:
    --------
    P: degree of linear polarization

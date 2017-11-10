@@ -33,7 +33,7 @@ def read_unlvrtm( filename, var=['Stokes'] ):
    Parameters
    ----------
    filename: a string, the filename of unl-vrtm output netCDF file
-   var: list of variable names to be read
+        var: list of variable names to be read
    
    Returns
    -------
@@ -74,7 +74,7 @@ def read_unlvrtm( filename, var=['Stokes'] ):
 ###
 def create_spectra(mins, maxs, ns_or_interval, interval=False, freq=False ):
    """
-   Create spectra based on min, max, and interval(or nspectra) 
+   Create a set of equal-interval spectra based on min, max, and interval(or nspectra) 
 
    Parameters
    ----------
@@ -86,12 +86,16 @@ def create_spectra(mins, maxs, ns_or_interval, interval=False, freq=False ):
    Returns
    -------
    outdata: Dict of wvn and lam
+
    """
+
+   # determine nspectra
    if interval:
       ns = int( (maxs-mins)/ns_or_interval )
    else:
       ns = ns_or_interval
 
+   # Calculate 
    if freq:
       wvn = np.linspace(mins, maxs, ns)
       lam = 1e7 / wvn
@@ -103,9 +107,31 @@ def create_spectra(mins, maxs, ns_or_interval, interval=False, freq=False ):
 ###
 def make_spectra_dat(spectra, nr1=1.33, ni1=0.0, nr2=1.33, ni2=0.0, s1=0.0, s2=0.0, s3=0.0,
                      filename="spectra.dat", casename='Default'):
+   """
+   Create a 'spectra.dat' file based on the input refractive index and surface parameters
+    
+   Parameters
+   ----------
+    spectra: A set of spectral wavelength in nm or wavenumber in cm^-1
+    nr1,ni1: Real and imaginary parts of refractive index of the 1st aerosol mode.
+             Default values are 1.33 and 0, respectively.
+    nr2,ni2: Real and imaginary parts of refractive index of the 2nd aerosol mode,
+             Default values are 1.33 and 0, respectively.
+   s1,s2,s3: The 3 surface parameters (see UNL-VRTM User's Guide for detail).
+   filename: The generated filename, default is 'spectra.dat'
+   casename: A string of casename to be writen in the file header.
 
-   #import sys
-   #import numpy as np
+   Returns
+   -------
+   None.
+
+   Note
+   ----
+   nr1, nr2, ni1, ni2, s1, s2, s3 should have same size to spectra.
+   
+   """ 
+
+
    # Number of spectrum
    spectra = np.squeeze(spectra)
    ns = len(spectra) 
