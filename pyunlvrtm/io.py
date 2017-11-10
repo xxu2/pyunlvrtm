@@ -182,9 +182,53 @@ def make_spectra_dat(spectra, nr1=1.33, ni1=0.0, nr2=1.33, ni2=0.0, s1=0.0, s2=0
 
    print("Make spectra data file: "+filename)
 
+###
+def nmlist_replace(oldfile, oldstr, newfile, newstr):
+   """
+   Replace a string (or a list of strings) in a file with a new string (or a list of new strings)
+
+   Parameters
+   ----------
+   oldfile: The name of the file with text to be replaced
+    oldstr: The string (or a list of strings) in the oldfile to be replaced
+   newfile: The name of for a new file to be generated
+    newstr: The text string to be used for replacing the oldstr
+
+   Returns
+   -------
+   None.
+
+   """
+
+   # open the oldfile
+   fold = open( oldfile, 'r')
+   filedata = fold.read()
+   fold.close()
+
+   # replace string in the old file
+   if np.isscaler(oldstr):
+     filedata = filedata.replace( oldstr, newstr )
+   else:
+     if np.size(oldstr) != np.size(newstr):
+        print( 'size(oldstr) = ', np.size(oldstr) )
+        print( 'size(newstr) = ', np.size(newstr) )
+        sys.exit('Their size should be same, but not ...io.py:nmlist_replace() ') 
+     for istr in range(len(oldstr)):
+        filedata = filedata.replace( oldstr[istr], newstr[istr] )
+  
+   # open a new file to save updates
+   fnew = open(newfile,'w')
+   fnew.write(filedata)
+   fnew.close()  
+
+   return 
+
 
 ### 
 def make_atmos_nc( var_dict, filename='atmos.nc' ):
+   """
+   Currently under development
+   """
 
    # To be added from fimchem_clarreo_for_unlvrtm.py ->
    # /Dedicated/jwang-data/xxu69/CLARREO/scripts/fromcranehome/orbit2/py
