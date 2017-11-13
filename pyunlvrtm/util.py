@@ -6,7 +6,10 @@ model outputs
 import sys
 import numpy as np
 
-__all__ = ['dolp','l_dolp','scattering_angle', 'radiance2bt']
+__all__ = ['dolp', 'dolp_l', \
+           'geometry_index', \
+           'radiance2bt', \
+           'scattering_angle']
 
 ###############################################################################
 # Private utility functions.
@@ -48,9 +51,9 @@ def dolp( Stokes ):
 
 
 ######
-def l_dolp(Stokes, l_Stokes):
+def dolp_l(Stokes, l_Stokes):
    """
-   Function l_delp() calculates the Jacobian of DOLP, given the Jacobian 
+   Function delp_l() calculates the Jacobian of DOLP, given the Jacobian 
    of I, Q, and U.
    
    Parameters
@@ -67,7 +70,7 @@ def l_dolp(Stokes, l_Stokes):
    
    # Check input
    if (np.size(Stokes) != np.size(l_Stokes)):
-      sys.exit( "l_dolp:l_Stokes contains different number of elements from Stokes!")
+      sys.exit( "dolp_l:l_Stokes contains different number of elements from Stokes!")
 
    # Get DLOP
    P = dolp(Stokes)
@@ -81,6 +84,42 @@ def l_dolp(Stokes, l_Stokes):
           + (Stokes[1]*l_Stokes[1] + Stokes[2]*l_Stokes[2]) / (P*Stokes[0]*Stokes[0])
 
    return P, l_P
+
+######
+def geometry_index( nsza, nvza, nraz, \
+                    isza, ivza, iraz ):
+   """
+   Calculate the geometry index for UNL-VRTM output of STOKES parameter
+
+   Parameters
+   ----------
+      nsza: number of solar zenith angles
+      nvza: ......... viewing zenith angles
+      nraz: ......... relative azimuthal angles
+      isza: subscripts (index) of the specified solar zenith angle 
+      ivza: ................................... viewing zenith angle
+      iraz: ................................... relative azimuthal angle
+  
+     Note that isza, (ivza, and iraz) should be a number between 0 
+     and nsza-1, (nvza-1, and nraz-1), following Python array's 
+     indixing rule.
+ 
+   Returns
+   -------
+      i_geom: index for the geometry dimension of variable STOKES.
+
+   """
+   # total number of geometry combinations
+   ngeom = nsza * nvza * nraz
+
+   # vza offset
+   vza_offset = isza * nvza + ivza
+
+   # geometry index
+   igeom = nraz * vza_offset + iraz
+
+   # return to the calling routine
+   return igeom, ngeom
 
 
 ######
