@@ -9,6 +9,8 @@ Python package to facilitate UNL-VRTM model
 * [netCDF4](http://unidata.github.io/netcdf4-python/)
 
 ## Installation
+One can use one of the two methods to install the pyunlvrtm module:
+
 ### Method 1. Run pip
 ```
 pip install pyunlvrtm
