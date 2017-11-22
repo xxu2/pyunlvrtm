@@ -7,7 +7,12 @@ import sys
 import numpy as np
 from netCDF4 import Dataset
 
-__all__ = ['read_unlvrtm','create_spectra','make_spectra_dat', 'make_atmos_nc']
+__all__ = ['create_spectra', \
+           'make_spectra_dat', \
+           'make_atmos_nc', \
+           'nmlist_replace', \
+           'read_unlvrtm' \
+           ]
 
 ###############################################################################
 # Private utility functions.
