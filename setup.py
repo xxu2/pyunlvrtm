@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pyunlvrtm',
-      version='0.2.3',
+      version='0.2.4',
       description='Python packages to faciliate the UNL-VRTM model',
       url='https://github.com/xxu2/pyunlvrtm',
       author='Richard Xu',

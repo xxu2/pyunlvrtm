@@ -211,7 +211,7 @@ def nmlist_replace(oldfile, oldstr, newfile, newstr):
    fold.close()
 
    # replace string in the old file
-   if np.isscaler(oldstr):
+   if np.isscalar(oldstr):
      filedata = filedata.replace( oldstr, newstr )
    else:
      if np.size(oldstr) != np.size(newstr):
